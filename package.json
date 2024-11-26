@@ -1,9 +1,9 @@
 {
   "name": "create-mexn-app",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "dist/cli.js",
   "type": "module",
-  "description": "A CLI tool to scaffold a new MongoDB-Express-Node app",
+  "description": "A CLI tool to scaffold a new MongoDB-Express-Node app. Inspired from create-react-app",
   "bin": {
     "create-mexn-app": "dist/cli.js"
   },
@@ -13,9 +13,23 @@
     "dev": "ts-node src/cli.ts",
     "prepare": "npm run build"
   },
-  "keywords": [],
+  "keywords": [
+    "nodejs-express-mongodb",
+    "mongodb",
+    "express",
+    "template",
+    "scaffold"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/donymvarkey/create-mexn-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/donymvarkey/create-mexn-app.git"
+  },
+  "homepage": "https://github.com/donymvarkey/create-mexn-app.git#README",
   "author": "Dony M Varkey",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/figlet": "^1.7.0",
     "@types/node": "^22.10.0",
