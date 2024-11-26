@@ -4,7 +4,7 @@ import { APP } from "../constants/index.js";
 
 export const displayAsciiArt = () => {
   figlet.text(
-    "create-node-app",
+    "create-mexn-app",
     {
       horizontalLayout: "default",
       verticalLayout: "default",

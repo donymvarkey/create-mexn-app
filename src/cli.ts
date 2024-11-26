@@ -23,8 +23,8 @@ const spinner = ora();
 displayAsciiArt();
 
 command
-  .name("create-node-app")
-  .description("CLI tool for creating a new Node.js Project")
+  .name("create-mexn-app")
+  .description("A CLI tool to scaffold a new MongoDB-Express-Node app")
   .version(
     getVersion(),
     "-v, --version",

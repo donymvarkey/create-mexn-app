@@ -14,13 +14,13 @@ A CLI tool to scaffold a new Node.js project from a Git template. It simplifies 
 Install globally using `npm` or `yarn`:
 
 ```bash
-$ npm install -g create-node-app
+$ npm install -g create-mexn-app
 ```
 
 Or run directly with `npx`:
 
 ```bash
-$ npx create-node-app
+$ npx create-mexn-app
 ```
 
 ## Usage
@@ -28,7 +28,7 @@ $ npx create-node-app
 Command Syntax
 
 ```bash
-$ create-node-app [project-name] [options]
+$ create-mexn-app [project-name] [options]
 ```
 
 ## Options
@@ -43,23 +43,23 @@ $ create-node-app [project-name] [options]
 Create a new project in a directory:
 
 ```bash
-$ create-node-app my-new-project
+$ create-mexn-app my-new-project
 ```
 
 Use the current directory as the project root:
 
 ```bash
-$ create-node-app
+$ create-mexn-app
 ```
 
 ### View CLI version and Help
 
 ```bash
-$ create-node-app -v
+$ create-mexn-app -v
 ```
 
 ```bash
-$ create-node-app -h
+$ create-mexn-app -h
 ```
 
 ### Features Breakdown
@@ -95,7 +95,7 @@ $ create-node-app -h
 1.  Clone this repository:
 
     ```bash
-    $ git clone https://github.com/donymvarkey/create-node-app.git
+    $ git clone https://github.com/donymvarkey/create-mexn-app.git
     ```
 
 2.  Install dependencies:
@@ -112,14 +112,14 @@ $ create-node-app -h
 
 4.  Test the CLI:
     ```bash
-    $ create-node-app --help
+    $ create-mexn-app --help
     ```
 
 ### Directory Structure
 
 ```plaintext
-create-node-app/
-├── dist/ # Contains the build of the create-node-app
+create-mexn-app/
+├── dist/ # Contains the build of the create-mexn-app
 ├── src/
 │ ├── constants/
 | | ├── index.ts # Constants used in the project
