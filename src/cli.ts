@@ -84,7 +84,8 @@ command
       //   console.log(
       //     chalk.green(`To get started, run cd ${projectName} and npm run dev`)
       //   );
-    } catch (error: unknown) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       spinner.fail(chalk.red(`Error: ${error.message}`));
       showError(
         `Something went wrong while initiating a project: ${error.message}`,
