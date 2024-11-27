@@ -1,8 +1,10 @@
-# Create Mexn App [![npm version](https://img.shields.io/npm/v/create-mexn-app.svg)](https://www.npmjs.com/package/create-node-app)
+# Create Mexn App [![npm version](https://img.shields.io/npm/v/create-mexn-app.svg)](https://www.npmjs.com/package/create-mexn-app) [![CircleCI](https://dl.circleci.com/status-badge/img/gh/donymvarkey/create-mexn-app/tree/main.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/donymvarkey/create-mexn-app/tree/main)
+
+[![CircleCI](https://dl.circleci.com/insights-snapshot/gh/donymvarkey/create-mexn-app/main/test-and-publish/badge.svg?window=30d)](https://app.circleci.com/insights/github/donymvarkey/create-mexn-app/workflows/test-and-publish/overview?branch=main&reporting-window=last-30-days&insights-snapshot=true)
 
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
-![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)![CircleCI](https://img.shields.io/badge/circle%20ci-%23161616.svg?style=for-the-badge&logo=circleci&logoColor=white)
 
 A CLI tool to scaffold a new Node.js+Express+MongoDB project from a Git template. It simplifies project initialization, customizes package.json, and sets up a fresh Git repository. Inspired from create-react-app
 

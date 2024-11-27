@@ -1,25 +1,25 @@
-import chalk from "chalk";
-import figlet from "figlet";
-import { APP } from "../constants/index.js";
+import chalk from 'chalk';
+import figlet from 'figlet';
+import { APP } from '../constants/index.js';
 
 export const displayAsciiArt = () => {
   figlet.text(
-    "create-mexn-app",
+    'create-mexn-app',
     {
-      horizontalLayout: "default",
-      verticalLayout: "default",
+      horizontalLayout: 'default',
+      verticalLayout: 'default',
       width: 120,
       whitespaceBreak: true,
     },
     function (err, data) {
       if (err) {
-        console.log("Something went wrong...");
+        console.log('Something went wrong...');
         console.dir(err);
         return;
       }
       console.log(data);
       console.log(chalk.greenBright(APP.description));
       //   console.log(chalk.greenBright(`version v${APP.version}`));
-    }
+    },
   );
 };

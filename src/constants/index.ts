@@ -1,9 +1,9 @@
 export const GIT_TEMPLATE_URL =
-  "https://github.com/donymvarkey/nodejs-server-boilerplate.git";
+  'https://github.com/donymvarkey/nodejs-server-boilerplate.git';
 
 export const APP = {
-  name: "create-mexn-app",
-  description: "A CLI tool to scaffold a new MongoDB-Express-Node app",
+  name: 'create-mexn-app',
+  description: 'A CLI tool to scaffold a new MongoDB-Express-Node app',
 };
 
 export const getDotEnvContents = (projectName: string): string => {
