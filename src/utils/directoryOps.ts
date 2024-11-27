@@ -1,8 +1,6 @@
-import fs from "fs";
-import { getDotEnvContents } from "../constants/index.js";
-import { showError } from "./logs.js";
-import { error } from "console";
-import chalk from "chalk";
+import fs from 'fs';
+import { getDotEnvContents } from '../constants/index.js';
+import chalk from 'chalk';
 
 /**
  * Checks if a directory is empty.
@@ -27,7 +25,7 @@ export const isDirectoryPresent = (dirPath: string): boolean => {
  */
 export const createDotEnvFile = async (
   dirPath: string,
-  projectName: string
+  projectName: string,
 ) => {
   try {
     const contents = getDotEnvContents(projectName);

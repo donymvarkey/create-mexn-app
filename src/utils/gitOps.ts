@@ -1,13 +1,13 @@
-import { simpleGit } from "simple-git";
-import fs from "fs";
-import path from "path";
+import { simpleGit } from 'simple-git';
+import fs from 'fs';
+import path from 'path';
 
 /**
  * Clones a repository to the target directory.
  */
 export const cloneRepository = async (
   gitUrl: string,
-  targetDir: string
+  targetDir: string,
 ): Promise<void> => {
   await simpleGit().clone(gitUrl, targetDir);
 };
@@ -16,9 +16,9 @@ export const cloneRepository = async (
  * Removes existing Git details and initializes a new Git repository.
  */
 export const initializeNewGitRepo = async (
-  targetDir: string
+  targetDir: string,
 ): Promise<void> => {
-  const gitDir = path.join(targetDir, ".git");
+  const gitDir = path.join(targetDir, '.git');
   if (fs.existsSync(gitDir)) {
     fs.rmSync(gitDir, { recursive: true, force: true });
   }
