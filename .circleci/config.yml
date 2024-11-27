@@ -1,8 +1,10 @@
 version: 2.1
+orbs:
+  node: circleci/node@6.3.0
 jobs:
   build:
     docker:
-      - image: circleci/node:16
+      - image: cimg/node:22.4.1
     steps:
       - checkout
       - restore_cache:
@@ -18,12 +20,6 @@ jobs:
       - run:
           name: Build TypeScript
           command: npm run prepare
-
-  publish:
-    docker:
-      - image: circleci/node:16
-    steps:
-      - checkout
       - run:
           name: Publish to NPM
           command: |
