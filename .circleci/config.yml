@@ -10,11 +10,14 @@ jobs:
             - v1-dependencies-{{ checksum "package-lock.json" }}
       - run:
           name: Install dependencies
-          command: npm install
+          command: npm ci --include=dev
       - save_cache:
           paths:
             - ./node_modules
           key: v1-dependencies-{{ checksum "package-lock.json" }}
+      - run:
+          name: Build TypeScript
+          command: npm run prepare
 
   publish:
     docker:
@@ -22,21 +25,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Authenticate npm
-          command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
-      - run:
-          name: Publish to npm
-          command: npm publish
-
-workflows:
-  version: 2
-  test-and-publish:
-    jobs:
-      - build
-      - publish:
-          requires:
-            - build
-          filters:
-            branches:
-              only:
-                - main
+          name: Publish to NPM
+          command: |
+            npm set //registry.npmjs.org/:_authToken=$NPM_TOKEN
+            npm publish
