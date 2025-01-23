@@ -6,6 +6,8 @@
 ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
 ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)![CircleCI](https://img.shields.io/badge/circle%20ci-%23161616.svg?style=for-the-badge&logo=circleci&logoColor=white)
 
+![create-mexn-app](./images/Screenshot%202025-01-23%20at%2011.07.12 AM.png)
+
 A CLI tool to scaffold a new Node.js+Express+MongoDB project from a Git template. It simplifies project initialization, customizes package.json, and sets up a fresh Git repository. Inspired from create-react-app
 
 ## Features
