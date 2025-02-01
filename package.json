@@ -1,6 +1,6 @@
 {
   "name": "create-mexn-app",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "main": "dist/cli.js",
   "type": "module",
   "description": "A CLI tool to scaffold a new MongoDB-Express-Node app. Inspired from create-react-app",
@@ -22,7 +22,9 @@
     "mongodb",
     "express",
     "template",
-    "scaffold"
+    "scaffold",
+    "javascript",
+    "typescript"
   ],
   "repository": {
     "type": "git",
@@ -36,6 +38,7 @@
   "license": "MIT",
   "devDependencies": {
     "@eslint/js": "^9.15.0",
+    "@types/degit": "^2.8.6",
     "@types/figlet": "^1.7.0",
     "@types/node": "^22.10.0",
     "eslint": "^9.15.0",
@@ -51,7 +54,9 @@
   "dependencies": {
     "chalk": "^5.3.0",
     "commander": "^12.1.0",
+    "degit": "^2.8.4",
     "figlet": "^1.8.0",
+    "inquirer": "^12.3.3",
     "ora": "^8.1.1",
     "simple-git": "^3.27.0"
   }
