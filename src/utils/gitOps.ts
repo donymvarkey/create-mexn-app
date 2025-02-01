@@ -1,6 +1,8 @@
 import { simpleGit } from 'simple-git';
 import fs from 'fs';
 import path from 'path';
+import degit from 'degit';
+import { GIT_TEMPLATE_URL } from '../constants/index.js';
 
 /**
  * Clones a repository to the target directory.
@@ -23,4 +25,9 @@ export const initializeNewGitRepo = async (
     fs.rmSync(gitDir, { recursive: true, force: true });
   }
   await simpleGit(targetDir).init();
+};
+
+export const cloneRepoWithDegit = async (name: string, template: string) => {
+  const emitter = degit(`${GIT_TEMPLATE_URL}/${template}`);
+  return await emitter.clone(`/${name}`);
 };
