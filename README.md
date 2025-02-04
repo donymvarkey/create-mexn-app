@@ -1,12 +1,14 @@
-# Create Mexn App [![npm version](https://img.shields.io/npm/v/create-mexn-app.svg)](https://www.npmjs.com/package/create-mexn-app) [![CircleCI](https://dl.circleci.com/status-badge/img/gh/donymvarkey/create-mexn-app/tree/main.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/donymvarkey/create-mexn-app/tree/main)
+# create-mexn-app
 
-[![CircleCI](https://dl.circleci.com/insights-snapshot/gh/donymvarkey/create-mexn-app/main/test-and-publish/badge.svg?window=30d)](https://app.circleci.com/insights/github/donymvarkey/create-mexn-app/workflows/test-and-publish/overview?branch=main&reporting-window=last-30-days&insights-snapshot=true)
+[![npm version](https://img.shields.io/npm/v/create-mexn-app.svg)](https://www.npmjs.com/package/create-mexn-app) [![CircleCI](https://dl.circleci.com/status-badge/img/gh/donymvarkey/create-mexn-app/tree/main.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/donymvarkey/create-mexn-app/tree/main) [![Known Vulnerabilities](https://snyk.io/test/github/donymvarkey/create-mexn-app/badge.svg?targetFile=package.json)](https://snyk.io/test/github/donymvarkey/create-mexn-app?targetFile=package.json) ![npm license](https://img.shields.io/npm/l/create-mexn-app) ![NPM Last Update](https://img.shields.io/npm/last-update/create-mexn-app)
 
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
-![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)![CircleCI](https://img.shields.io/badge/circle%20ci-%23161616.svg?style=for-the-badge&logo=circleci&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
+![CircleCI](https://img.shields.io/badge/circle%20ci-%23161616.svg?style=for-the-badge&logo=circleci&logoColor=white)
 
-![create-mexn-app](./images/Screenshot%202025-01-23%20at%2011.07.12 AM.png)
+![create-mexn-app](./images/img1.png)
+![create-mexn-app](./images/img2.png)
 
 A CLI tool to scaffold a new Node.js+Express+MongoDB project from a Git template. It simplifies project initialization, customizes package.json, and sets up a fresh Git repository. Inspired from create-react-app
 
@@ -16,6 +18,7 @@ A CLI tool to scaffold a new Node.js+Express+MongoDB project from a Git template
 - Update package.json with project-specific details (e.g., name, version, description).
 - Automatically initialize a new Git repository.
 - Include Prettier and ESLint configurations for industry-standard code quality.
+- Select your preferred templates from CommonJS, ESModules or Typescript
 
 ## Installation
 
@@ -36,7 +39,7 @@ $ npx create-mexn-app
 Command Syntax
 
 ```bash
-$ create-mexn-app [project-name] [options]
+$ create-mexn-app [project-name]
 ```
 
 ## Options
@@ -73,7 +76,7 @@ $ create-mexn-app -h
 ### Features Breakdown
 
 1.  #### Clone template from remote repository
-    The CLI tool clones the provided template repository into the specified project directory. It uses `simple-git` for reliable Git operations.
+    The CLI tool clones the provided template repository into the specified project directory. It uses `degit` for reliable Git operations.
 2.  #### Update package.json
     The tool customizes the package.json file of the cloned template:
     - Updates the name, version, and description fields.
@@ -84,12 +87,11 @@ $ create-mexn-app -h
     - Creates an initial commit for the scaffolded code.
 4.  #### Prettier and ESLint Setup
 
-        The tool ensures your project starts with:
+    The tool ensures your project starts with:
 
-        - Prettier for code formatting.
-
-        - ESLint for identifying syntax and style issues.
-        - husky precommit hook.
+    - Prettier for code formatting.
+    - ESLint for identifying syntax and style issues.
+    - husky precommit hook.
 
 ### Requirements
 

@@ -28,6 +28,11 @@ export const initializeNewGitRepo = async (
 };
 
 export const cloneRepoWithDegit = async (name: string, template: string) => {
-  const emitter = degit(`${GIT_TEMPLATE_URL}/${template}`);
-  return await emitter.clone(`/${name}`);
+  try {
+    const emitter = degit(`${GIT_TEMPLATE_URL}/${template}`);
+    await emitter.clone(`/${name}`);
+    return true;
+  } catch (error) {
+    return error;
+  }
 };

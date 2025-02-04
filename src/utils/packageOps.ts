@@ -12,7 +12,7 @@ export const updatePackageJson = async (
   if (projectName) {
     packageJson.name = projectName.toLowerCase().replace(/\s+/g, '-');
     packageJson.version = '1.0.0';
-    packageJson.description = `APIs for ${projectName}`;
+    packageJson.description = `REST API for ${projectName}`;
   }
 
   fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
