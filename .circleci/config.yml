@@ -1,6 +1,4 @@
 version: 2.1
-orbs:
-  node: circleci/node@6.3.0
 jobs:
   build:
     docker:
@@ -25,3 +23,12 @@ jobs:
           command: |
             npm set //registry.npmjs.org/:_authToken=$NPM_TOKEN
             npm publish
+
+workflows:
+  build-and-deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - main

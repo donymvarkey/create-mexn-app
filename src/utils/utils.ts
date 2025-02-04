@@ -1,20 +1,16 @@
-import chalk from 'chalk';
+import { INSTALL_COMMANDS, TEMPLATES } from '../constants/index.js';
+import { CommandOptions, TemplateOptions } from '../types/index.js';
 import { APP_VERSION } from '../version.js';
 
 // Get the version from package.json dynamically
 export const getVersion = () => {
-  return `create-mexn-app v${APP_VERSION}`;
+  return APP_VERSION;
 };
 
-// Display help information
-export const showHelp = () => {
-  console.log(
-    chalk.yellow(`
-Usage: create-mexn-app [project-name] [options]
+export const getTemplateRepo = (option: TemplateOptions) => {
+  return TEMPLATES[option];
+};
 
-Options:
-  -v, --version          Show CLI version
-  -h, --help             Display help for the CLI tool
-`),
-  );
+export const getPackageInstallCommands = (command: CommandOptions) => {
+  return INSTALL_COMMANDS[command];
 };

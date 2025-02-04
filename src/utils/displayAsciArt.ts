@@ -19,7 +19,7 @@ export const displayAsciiArt = () => {
       }
       console.log(data);
       console.log(chalk.greenBright(APP.description));
-      //   console.log(chalk.greenBright(`version v${APP.version}`));
+      console.log(chalk.greenBright(`version v${APP.version}`));
     },
   );
 };
