@@ -56,7 +56,7 @@ setTimeout(() => {
 
         const template = getTemplateRepo(answers.template);
 
-        await createNewProject(targetDir, template);
+        await createNewProject(targetDir, projectName, template);
 
         const packageManager = await inquirer.prompt([
           {
