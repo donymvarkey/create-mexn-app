@@ -1,6 +1,6 @@
 # create-mexn-app
 
-[![npm version](https://img.shields.io/npm/v/create-mexn-app.svg)](https://www.npmjs.com/package/create-mexn-app) [![CircleCI](https://dl.circleci.com/status-badge/img/gh/donymvarkey/create-mexn-app/tree/main.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/donymvarkey/create-mexn-app/tree/main) [![Known Vulnerabilities](https://snyk.io/test/github/donymvarkey/create-mexn-app/badge.svg?targetFile=package.json)](https://snyk.io/test/github/donymvarkey/create-mexn-app?targetFile=package.json) ![npm license](https://img.shields.io/npm/l/create-mexn-app) ![NPM Last Update](https://img.shields.io/npm/last-update/create-mexn-app)
+[![npm version](https://img.shields.io/npm/v/create-mexn-app.svg)](https://www.npmjs.com/package/create-mexn-app) ![GitHub Actions](https://github.com/donymvarkey/create-mexn-app/actions/workflows/publish.yml/badge.svg) [![Known Vulnerabilities](https://snyk.io/test/github/donymvarkey/create-mexn-app/badge.svg?targetFile=package.json)](https://snyk.io/test/github/donymvarkey/create-mexn-app?targetFile=package.json) ![npm license](https://img.shields.io/npm/l/create-mexn-app) ![NPM Last Update](https://img.shields.io/npm/last-update/create-mexn-app)
 
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
@@ -31,7 +31,7 @@ $ npm install -g create-mexn-app
 Or run directly with `npx`:
 
 ```bash
-$ npx create-mexn-app
+$ npx create-mexn-app project-name
 ```
 
 ## Usage
@@ -60,7 +60,7 @@ $ create-mexn-app my-new-project
 Use the current directory as the project root:
 
 ```bash
-$ create-mexn-app
+$ create-mexn-app .
 ```
 
 ### View CLI version and Help
@@ -95,7 +95,7 @@ $ create-mexn-app -h
 
 ### Requirements
 
-- Node.js 16.0.0 or higher.
+- Node.js 18.0.0 or higher.
 - Git installed on your machine.
 
 ### Development

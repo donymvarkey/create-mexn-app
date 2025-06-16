@@ -6,6 +6,7 @@ export const displayAsciiArt = () => {
   figlet.text(
     'create-mexn-app',
     {
+      font: 'Doom',
       horizontalLayout: 'default',
       verticalLayout: 'default',
       width: 120,
@@ -17,7 +18,7 @@ export const displayAsciiArt = () => {
         console.dir(err);
         return;
       }
-      console.log(data);
+      console.log(chalk.cyanBright(data));
       console.log(chalk.greenBright(APP.description));
       console.log(chalk.greenBright(`version v${APP.version}`));
     },
