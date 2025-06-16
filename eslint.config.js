@@ -33,6 +33,9 @@ export default [
 
       // --- Import Rules ---
       'no-duplicate-imports': 'error', // Disallow duplicate imports
+      'capitalized-comments': ['error'], // Comments should always begin with capital letter
+      'default-case-last': ['error'], // Switch case should end with a default statement
+      'max-lines': ['error', 150],
     },
   },
   pluginJs.configs.recommended,

@@ -7,6 +7,16 @@ import { updatePackageJson } from './packageOps.js';
 
 const spinner = ora();
 
+/**
+ * Creates a new project by downloading a template repository, updating the project name in package.json,
+ * and returning the updated dependencies.
+ *
+ * @param projectDirectory - The directory where the new project will be created.
+ * @param projectName - The name to assign to the new project.
+ * @param projectTemplate - The template repository to use for the new project.
+ * @returns A promise that resolves to the updated dependencies if successful, `false` if cloning fails,
+ * or an error object if an exception occurs.
+ */
 export const createNewProject = async (
   projectDirectory: string,
   projectName: string,

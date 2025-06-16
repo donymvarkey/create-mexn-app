@@ -1,4 +1,23 @@
 #!/usr/bin/env node
+/**
+ * Entry point for the create-mexn-app CLI tool.
+ *
+ * This script scaffolds a new MongoDB-Express-Node application based on user input.
+ * It provides an interactive CLI using Commander and Inquirer to:
+ * - Display ASCII art branding.
+ * - Prompt for project name and template type (CommonJS, ESModules, Typescript).
+ * - Create a new project directory and initialize it with the selected template.
+ * - Prompt for a package manager (npm, yarn, pnpm) and install dependencies.
+ * - Display the list of dependencies and devDependencies used in the project.
+ * - Handle errors gracefully and provide user-friendly feedback.
+ *
+ * Utilities and helpers are imported for directory operations, logging, template selection,
+ * and project creation.
+ *
+ * @file CLI entry point for scaffolding a new MongoDB-Express-Node app.
+ * @module cli
+ */
+
 import { Command } from 'commander';
 import path from 'path';
 import inquirer from 'inquirer';
@@ -34,7 +53,7 @@ setTimeout(() => {
     .action(async (projectName) => {
       try {
         console.log('\n');
-        // create a directory with the given project name
+        // Create a directory with the given project name
         const targetDir = projectName
           ? path.resolve(process.cwd(), projectName)
           : process.cwd();

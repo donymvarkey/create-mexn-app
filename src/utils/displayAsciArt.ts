@@ -2,6 +2,17 @@ import chalk from 'chalk';
 import figlet from 'figlet';
 import { APP } from '../constants/index.js';
 
+/**
+ * Displays the application's ASCII art banner in the console using the 'figlet' library.
+ * The banner includes the application name, description, and version, styled with 'chalk'.
+ *
+ * @remarks
+ * - Uses the 'Doom' font for ASCII art.
+ * - Outputs additional application metadata below the banner.
+ * - Handles and logs errors if ASCII art generation fails.
+ *
+ * @public
+ */
 export const displayAsciiArt = () => {
   figlet.text(
     'create-mexn-app',
