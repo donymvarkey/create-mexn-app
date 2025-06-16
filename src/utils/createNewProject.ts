@@ -15,6 +15,7 @@ export const createNewProject = async (
   try {
     // Clone boilerplate code repo from github
     spinner.start(`Downloading template ${projectTemplate}`);
+    let deps;
 
     const status = await cloneRepoWithDegit(projectDirectory, projectTemplate);
     if (!status) {
@@ -29,14 +30,14 @@ export const createNewProject = async (
     const packageJsonPath = path.join(projectDirectory, 'package.json');
     if (fs.existsSync(packageJsonPath)) {
       spinner.start('Updating package.json...');
-      await updatePackageJson(packageJsonPath, projectName);
+      deps = await updatePackageJson(packageJsonPath, projectName);
       spinner.succeed(chalk.green('package.json updated successfully'));
     } else {
       console.warn(
         chalk.yellow('Warning: package.json not found. Skipping update.'),
       );
     }
-    return true;
+    return deps;
   } catch (error) {
     return error;
   }

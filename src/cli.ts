@@ -19,6 +19,7 @@ const command = new Command();
 const spinner = ora();
 
 displayAsciiArt();
+console.log('\n');
 
 setTimeout(() => {
   command
@@ -32,6 +33,7 @@ setTimeout(() => {
     .argument('[project-name]', 'Name of the project', '.')
     .action(async (projectName) => {
       try {
+        console.log('\n');
         // create a directory with the given project name
         const targetDir = projectName
           ? path.resolve(process.cwd(), projectName)
@@ -55,8 +57,15 @@ setTimeout(() => {
         ]);
 
         const template = getTemplateRepo(answers.template);
+        console.log('\n');
 
-        await createNewProject(targetDir, projectName, template);
+        const deps = (await createNewProject(
+          targetDir,
+          projectName,
+          template,
+        )) as Record<string, string[]>;
+
+        console.log('\n');
 
         const packageManager = await inquirer.prompt([
           {
@@ -66,15 +75,39 @@ setTimeout(() => {
             choices: ['npm', 'yarn', 'pnpm'],
           },
         ]);
-        chalk.greenBright(`Install packages using ${packageManager.installer}`);
+        console.log(
+          chalk.greenBright(
+            `Install packages using ${packageManager.installer}`,
+          ),
+        );
         const command = getPackageInstallCommands(packageManager.installer);
 
+        console.log('\n');
+
+        // Show dependencies used in the project
+        console.log(chalk.bold.yellowBright('Dependencies'));
+        console.log(chalk.blue('---------------------------------'));
+        deps.dependencies.map((dep: string) =>
+          console.log(chalk.blue(`${dep}`)),
+        );
+        console.log(chalk.blue('---------------------------------'));
+        console.log('\n');
+
+        // Show devDependencies used in the project
+        console.log(chalk.bold.yellowBright('Dev Dependencies'));
+        console.log(chalk.blue('---------------------------------'));
+        deps.devDependencies.map((dep: string) =>
+          console.log(chalk.blue(`${dep}`)),
+        );
+        console.log(chalk.blue('---------------------------------'));
+        console.log('\n');
         // Install dependencies
         spinner.start(`Install dependencies using ${packageManager.installer}`);
         execSync(command, {
           cwd: targetDir,
           stdio: 'inherit',
         });
+        console.log('\n');
         spinner.succeed(chalk.green('Dependencies installed successfully'));
       } catch (error: unknown) {
         if (error instanceof Error) {
