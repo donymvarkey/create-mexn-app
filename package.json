@@ -1,6 +1,6 @@
 {
   "name": "create-mexn-app",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "main": "dist/cli.js",
   "type": "module",
   "description": "A CLI tool to scaffold a new MongoDB-Express-Node app. Inspired from create-react-app",
@@ -56,7 +56,7 @@
   },
   "dependencies": {
     "chalk": "^5.4.1",
-    "commander": "^14.0.0",
+    "commander": "^14.0.1",
     "degit": "^2.8.4",
     "figlet": "^1.8.1",
     "inquirer": "^12.6.3",
