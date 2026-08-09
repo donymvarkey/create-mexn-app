@@ -18,4 +18,5 @@ export const INSTALL_COMMANDS = {
   npm: 'npm install',
   yarn: 'yarn',
   pnpm: 'pnpm install',
+  bun: 'bun install',
 };
