@@ -44,33 +44,41 @@ $ create-mexn-app [project-name]
 
 ## Options
 
-| Option        | Description                                   |
-| :------------ | :-------------------------------------------- |
-| -v, --version | Displays the current version of the CLI tool. |
-| -h , --help   | Displays help information about the CLI tool. |
+| Option                              | Description                                                                   |
+| :---------------------------------- | :---------------------------------------------------------------------------- |
+| `-t, --template <template>`         | Specify template (`CommonJS`, `ESModules`, `Typescript` / `cjs`, `esm`, `ts`) |
+| `-p, --package-manager <installer>` | Specify package manager (`npm`, `yarn`, `pnpm`, `bun`)                        |
+| `-y, --yes`                         | Skip interactive prompts and use defaults (`Typescript`, `npm`)               |
+| `--skip-install`                    | Skip automatic dependency installation                                        |
+| `--no-git`                          | Skip git repository re-initialization                                         |
+| `--docker`                          | Generate Dockerfile and docker-compose.yml configuration                      |
+| `-v, --version`                     | Displays the current version of the CLI tool.                                 |
+| `-h, --help`                        | Displays help information about the CLI tool.                                 |
 
 ## Examples
 
-Create a new project in a directory:
+Create a new project interactively:
 
 ```bash
 $ create-mexn-app my-new-project
 ```
 
-Use the current directory as the project root:
+Create a new project using non-interactive flags:
 
 ```bash
-$ create-mexn-app .
+$ create-mexn-app my-app -t ts -p bun
 ```
 
-### View CLI version and Help
+Create a project using default values without prompts:
 
 ```bash
-$ create-mexn-app -v
+$ create-mexn-app my-app -y
 ```
 
+Scaffold a project without installing dependencies:
+
 ```bash
-$ create-mexn-app -h
+$ create-mexn-app my-app --skip-install
 ```
 
 ### Features Breakdown
