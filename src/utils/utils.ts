@@ -4,12 +4,9 @@ import {
   DependencyMap,
   TemplateOptions,
 } from '../types/index.js';
-import { APP_VERSION } from '../version.js';
+import { getVersion } from '../version.js';
 
-// Get the version from package.json dynamically
-export const getVersion = () => {
-  return APP_VERSION;
-};
+export { getVersion };
 
 export const getTemplateRepo = (option: TemplateOptions) => {
   return TEMPLATES[option];
@@ -25,4 +22,36 @@ export const getDependencies = (dependencies?: DependencyMap) => {
 
 export const getDevDependencies = (devDependencies?: DependencyMap) => {
   return devDependencies ? Object.keys(devDependencies) : [];
+};
+
+export const normalizeTemplateOption = (
+  input?: string,
+): TemplateOptions | null => {
+  if (!input) {
+    return null;
+  }
+  const lower = input.toLowerCase();
+  if (['commonjs', 'cjs'].includes(lower)) {
+    return 'CommonJS';
+  }
+  if (['esmodules', 'esm', 'esm-js'].includes(lower)) {
+    return 'ESModules';
+  }
+  if (['typescript', 'ts', 'esm-ts'].includes(lower)) {
+    return 'Typescript';
+  }
+  return null;
+};
+
+export const normalizePackageManagerOption = (
+  input?: string,
+): CommandOptions | null => {
+  if (!input) {
+    return null;
+  }
+  const lower = input.toLowerCase();
+  if (['npm', 'yarn', 'pnpm', 'bun'].includes(lower)) {
+    return lower as CommandOptions;
+  }
+  return null;
 };
