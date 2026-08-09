@@ -11,16 +11,16 @@ export const createNewProject = async (
   projectDirectory: string,
   projectName: string,
   projectTemplate: string,
-) => {
+): Promise<{ dependencies: string[]; devDependencies: string[] }> => {
   try {
     // Clone boilerplate code repo from github
     spinner.start(`Downloading template ${projectTemplate}`);
-    let deps;
+    let deps = {
+      dependencies: [] as string[],
+      devDependencies: [] as string[],
+    };
 
-    const status = await cloneRepoWithDegit(projectDirectory, projectTemplate);
-    if (!status) {
-      return false;
-    }
+    await cloneRepoWithDegit(projectDirectory, projectTemplate);
 
     spinner.succeed(chalk.green('Template downloaded.'));
     spinner.succeed(chalk.green(`Creating new project at ${projectDirectory}`));
@@ -30,7 +30,10 @@ export const createNewProject = async (
     const packageJsonPath = path.join(projectDirectory, 'package.json');
     if (fs.existsSync(packageJsonPath)) {
       spinner.start('Updating package.json...');
-      deps = await updatePackageJson(packageJsonPath, projectName);
+      deps = (await updatePackageJson(packageJsonPath, projectName)) as {
+        dependencies: string[];
+        devDependencies: string[];
+      };
       spinner.succeed(chalk.green('package.json updated successfully'));
     } else {
       console.warn(
@@ -39,6 +42,7 @@ export const createNewProject = async (
     }
     return deps;
   } catch (error) {
-    return error;
+    spinner.fail(chalk.red('Failed to clone template or setup project.'));
+    throw error;
   }
 };

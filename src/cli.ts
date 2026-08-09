@@ -85,22 +85,26 @@ setTimeout(() => {
         console.log('\n');
 
         // Show dependencies used in the project
-        console.log(chalk.bold.yellowBright('Dependencies'));
-        console.log(chalk.blue('---------------------------------'));
-        deps.dependencies.map((dep: string) =>
-          console.log(chalk.blue(`${dep}`)),
-        );
-        console.log(chalk.blue('---------------------------------'));
-        console.log('\n');
+        if (deps.dependencies && deps.dependencies.length > 0) {
+          console.log(chalk.bold.yellowBright('Dependencies'));
+          console.log(chalk.blue('---------------------------------'));
+          deps.dependencies.forEach((dep: string) =>
+            console.log(chalk.blue(`${dep}`)),
+          );
+          console.log(chalk.blue('---------------------------------'));
+          console.log('\n');
+        }
 
         // Show devDependencies used in the project
-        console.log(chalk.bold.yellowBright('Dev Dependencies'));
-        console.log(chalk.blue('---------------------------------'));
-        deps.devDependencies.map((dep: string) =>
-          console.log(chalk.blue(`${dep}`)),
-        );
-        console.log(chalk.blue('---------------------------------'));
-        console.log('\n');
+        if (deps.devDependencies && deps.devDependencies.length > 0) {
+          console.log(chalk.bold.yellowBright('Dev Dependencies'));
+          console.log(chalk.blue('---------------------------------'));
+          deps.devDependencies.forEach((dep: string) =>
+            console.log(chalk.blue(`${dep}`)),
+          );
+          console.log(chalk.blue('---------------------------------'));
+          console.log('\n');
+        }
         // Install dependencies
         spinner.start(`Install dependencies using ${packageManager.installer}`);
         execSync(command, {
