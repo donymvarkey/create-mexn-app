@@ -19,10 +19,10 @@ export const getPackageInstallCommands = (command: CommandOptions) => {
   return INSTALL_COMMANDS[command];
 };
 
-export const getDependencies = (dependencies: DependencyMap) => {
-  return Object.keys(dependencies);
+export const getDependencies = (dependencies?: DependencyMap) => {
+  return dependencies ? Object.keys(dependencies) : [];
 };
 
-export const getDevDependencies = (devDependencies: DependencyMap) => {
-  return Object.keys(devDependencies);
+export const getDevDependencies = (devDependencies?: DependencyMap) => {
+  return devDependencies ? Object.keys(devDependencies) : [];
 };
