@@ -1,40 +1,53 @@
 import path from 'path';
 import chalk from 'chalk';
 import fs from 'fs';
-import { cloneRepoWithDegit, reinitializeGitRepo } from './gitOps.js';
+import { cloneRepo, reinitializeGitRepo } from './gitOps.js';
 import { updatePackageJson } from './packageOps.js';
-import { createDockerFiles, createDotEnvFile } from './directoryOps.js';
+import {
+  createDotEnvFile,
+  createSwaggerFiles,
+  updateReadme,
+} from './directoryOps.js';
 
 export const createNewProject = async (
   projectDirectory: string,
   projectName: string,
   projectTemplate: string,
-  options: { git?: boolean; docker?: boolean } = { git: true },
+  options: { git?: boolean; swagger?: boolean; commitInitial?: boolean } = {
+    git: true,
+  },
 ): Promise<{ dependencies: string[]; devDependencies: string[] }> => {
   let deps = {
     dependencies: [] as string[],
     devDependencies: [] as string[],
   };
 
-  await cloneRepoWithDegit(projectDirectory, projectTemplate);
+  await cloneRepo(projectDirectory, projectTemplate);
 
   // Create default .env and .env.example
   createDotEnvFile(projectDirectory, projectName);
 
-  // Create Docker files if requested
-  if (options.docker) {
-    createDockerFiles(projectDirectory, projectName);
+  // Update the README with the badge
+  updateReadme(projectDirectory, projectName);
+
+  // Create swagger configuration if requested
+  if (options.swagger) {
+    createSwaggerFiles(projectDirectory, projectTemplate);
   }
 
   // Re-initialize Git repository if requested
   if (options.git !== false) {
-    reinitializeGitRepo(projectDirectory);
+    reinitializeGitRepo(projectDirectory, projectName, options.commitInitial);
   }
 
   // Update package.json
   const packageJsonPath = path.join(projectDirectory, 'package.json');
   if (fs.existsSync(packageJsonPath)) {
-    deps = (await updatePackageJson(packageJsonPath, projectName)) as {
+    deps = (await updatePackageJson(
+      packageJsonPath,
+      projectName,
+      options.swagger,
+    )) as {
       dependencies: string[];
       devDependencies: string[];
     };

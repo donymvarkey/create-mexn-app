@@ -7,7 +7,8 @@ import { getDependencies, getDevDependencies } from './utils.js';
 export const updatePackageJson = async (
   packageJsonPath: string,
   projectName?: string,
-): Promise<object> => {
+  includeSwagger?: boolean,
+): Promise<{ dependencies: string[]; devDependencies: string[] }> => {
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
 
   if (projectName) {
@@ -19,6 +20,26 @@ export const updatePackageJson = async (
     packageJson.author = '';
     packageJson.bugs = {};
     packageJson.homepage = '';
+  }
+
+  if (includeSwagger) {
+    packageJson.dependencies = {
+      ...packageJson.dependencies,
+      'swagger-ui-express': '^5.0.1',
+    };
+    packageJson.devDependencies = {
+      ...packageJson.devDependencies,
+      'swagger-autogen': '^2.23.7',
+    };
+
+    // Add a script to run swagger autogen
+    const isTs =
+      packageJsonPath.includes('esm-ts') ||
+      packageJson.devDependencies?.typescript;
+    packageJson.scripts = {
+      ...packageJson.scripts,
+      swagger: isTs ? 'ts-node swagger.ts' : 'node swagger.js',
+    };
   }
 
   const dependencies = getDependencies(packageJson.dependencies);

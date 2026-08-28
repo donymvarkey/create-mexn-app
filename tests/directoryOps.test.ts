@@ -3,10 +3,11 @@ import fs from 'fs';
 import path from 'path';
 import os from 'os';
 import {
-  createDockerFiles,
+  createSwaggerFiles,
   createDotEnvFile,
   isDirectoryEmpty,
   isDirectoryPresent,
+  emptyDirectory,
 } from '../src/utils/directoryOps.js';
 
 describe('directoryOps', () => {
@@ -33,6 +34,24 @@ describe('directoryOps', () => {
     expect(isDirectoryEmpty(tempDir)).toBe(false);
   });
 
+  it('emptyDirectory should clear directory contents but keep the directory and .git intact', () => {
+    // Create some files and folders
+    fs.writeFileSync(path.join(tempDir, 'file.txt'), 'hello');
+    fs.mkdirSync(path.join(tempDir, 'subdir'));
+    fs.writeFileSync(path.join(tempDir, 'subdir', 'other.txt'), 'world');
+    fs.mkdirSync(path.join(tempDir, '.git'));
+    fs.writeFileSync(path.join(tempDir, '.git', 'config'), 'gitdata');
+
+    expect(isDirectoryEmpty(tempDir)).toBe(false);
+
+    emptyDirectory(tempDir);
+
+    const remainingFiles = fs.readdirSync(tempDir);
+    expect(remainingFiles).toEqual(['.git']);
+    expect(fs.existsSync(path.join(tempDir, '.git', 'config'))).toBe(true);
+    expect(fs.existsSync(path.join(tempDir, 'file.txt'))).toBe(false);
+  });
+
   it('createDotEnvFile should generate .env and .env.example', () => {
     createDotEnvFile(tempDir, 'My Test App');
     const envPath = path.join(tempDir, '.env');
@@ -48,17 +67,23 @@ describe('directoryOps', () => {
     );
   });
 
-  it('createDockerFiles should generate Dockerfile, docker-compose.yml, and .dockerignore', () => {
-    createDockerFiles(tempDir, 'Docker Test App');
-    const dockerfilePath = path.join(tempDir, 'Dockerfile');
-    const dockerComposePath = path.join(tempDir, 'docker-compose.yml');
-    const dockerIgnorePath = path.join(tempDir, '.dockerignore');
+  it('createSwaggerFiles should generate swagger.ts for esm-ts', () => {
+    createSwaggerFiles(tempDir, 'esm-ts');
+    const swaggerPath = path.join(tempDir, 'swagger.ts');
+    expect(fs.existsSync(swaggerPath)).toBe(true);
 
-    expect(fs.existsSync(dockerfilePath)).toBe(true);
-    expect(fs.existsSync(dockerComposePath)).toBe(true);
-    expect(fs.existsSync(dockerIgnorePath)).toBe(true);
+    const content = fs.readFileSync(swaggerPath, 'utf-8');
+    expect(content).toContain("import swaggerAutogen from 'swagger-autogen'");
+  });
 
-    const composeContent = fs.readFileSync(dockerComposePath, 'utf-8');
-    expect(composeContent).toContain('mongodb://mongo:27017/docker-test-app');
+  it('createSwaggerFiles should generate swagger.js for cjs', () => {
+    createSwaggerFiles(tempDir, 'cjs');
+    const swaggerPath = path.join(tempDir, 'swagger.js');
+    expect(fs.existsSync(swaggerPath)).toBe(true);
+
+    const content = fs.readFileSync(swaggerPath, 'utf-8');
+    expect(content).toContain(
+      "const swaggerAutogen = require('swagger-autogen')()",
+    );
   });
 });
