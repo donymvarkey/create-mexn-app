@@ -14,7 +14,11 @@ import {
 } from '@clack/prompts';
 import { execSync } from 'child_process';
 import { displayAsciiArt } from './utils/displayAsciArt.js';
-import { isDirectoryEmpty, isDirectoryPresent } from './utils/directoryOps.js';
+import {
+  isDirectoryEmpty,
+  isDirectoryPresent,
+  emptyDirectory,
+} from './utils/directoryOps.js';
 import { showError } from './utils/logs.js';
 import {
   getPackageInstallCommands,
@@ -33,7 +37,7 @@ interface CliOptions {
   yes?: boolean;
   skipInstall?: boolean;
   git?: boolean;
-  docker?: boolean;
+  swagger?: boolean;
   dryRun?: boolean;
 }
 
@@ -55,7 +59,7 @@ cli
   .option('-y, --yes', 'Use default options for prompts without asking')
   .option('--skip-install', 'Skip installing dependencies')
   .option('--no-git', 'Skip git repository re-initialization')
-  .option('--docker', 'Generate Dockerfile and docker-compose.yml')
+  .option('--swagger', 'Setup Swagger documentation automatically')
   .option('--dry-run', 'Preview scaffolding action without modifying disk')
   .action(async (projectNameInput: string | undefined, options: CliOptions) => {
     try {
@@ -69,10 +73,42 @@ cli
       const targetDir = path.resolve(process.cwd(), projectName);
 
       if (isDirectoryPresent(targetDir) && !isDirectoryEmpty(targetDir)) {
-        cancel(
-          `Directory ${chalk.bold(targetDir)} already exists and is not empty.`,
-        );
-        process.exit(1);
+        if (options.yes) {
+          cancel(
+            `Directory ${chalk.bold(targetDir)} already exists and is not empty. Cannot proceed with --yes.`,
+          );
+          process.exit(1);
+        }
+
+        const overwriteAction = await select({
+          message: `Directory ${chalk.bold(targetDir)} is not empty. Please choose how to proceed:`,
+          options: [
+            {
+              value: 'cancel',
+              label: 'Cancel operation',
+              hint: 'Recommended',
+            },
+            {
+              value: 'clear',
+              label: 'Remove existing files and continue',
+              hint: 'Destructive',
+            },
+            {
+              value: 'ignore',
+              label: 'Ignore files and continue',
+              hint: 'May cause conflicts',
+            },
+          ],
+        });
+
+        if (isCancel(overwriteAction) || overwriteAction === 'cancel') {
+          cancel('Operation cancelled.');
+          process.exit(0);
+        }
+
+        if (overwriteAction === 'clear') {
+          emptyDirectory(targetDir);
+        }
       }
 
       let selectedTemplate: TemplateOptions;
@@ -117,26 +153,39 @@ cli
         selectedTemplate = templateAnswer as TemplateOptions;
       }
 
-      let includeDocker = options.docker;
-      if (includeDocker === undefined && !options.yes) {
-        const dockerAnswer = await confirm({
-          message:
-            'Include Docker configuration (Dockerfile & docker-compose.yml)?',
+      let includeSwagger = options.swagger;
+      if (includeSwagger === undefined && !options.yes) {
+        const swaggerAnswer = await confirm({
+          message: 'Include automated Swagger documentation setup?',
           initialValue: false,
         });
 
-        if (isCancel(dockerAnswer)) {
+        if (isCancel(swaggerAnswer)) {
           cancel('Operation cancelled.');
           process.exit(0);
         }
-        includeDocker = Boolean(dockerAnswer);
+        includeSwagger = Boolean(swaggerAnswer);
+      }
+
+      let commitInitial = false;
+      if (options.git !== false && !options.yes) {
+        const commitAnswer = await confirm({
+          message: 'Create initial commit?',
+          initialValue: false,
+        });
+
+        if (isCancel(commitAnswer)) {
+          cancel('Operation cancelled.');
+          process.exit(0);
+        }
+        commitInitial = Boolean(commitAnswer);
       }
 
       const templateRepo = getTemplateRepo(selectedTemplate);
 
       if (options.dryRun) {
         note(
-          `Target Directory: ${targetDir}\nTemplate: ${selectedTemplate} (${templateRepo})\nPackage Manager: ${options.packageManager || (options.yes ? 'npm' : 'Interactive Prompt')}\nGit Initialization: ${options.git !== false ? 'Enabled' : 'Disabled'}\nDocker Files: ${includeDocker ? 'Enabled' : 'Disabled'}`,
+          `Target Directory: ${targetDir}\nTemplate: ${selectedTemplate} (${templateRepo})\nPackage Manager: ${options.packageManager || (options.yes ? 'npm' : 'Interactive Prompt')}\nGit Initialization: ${options.git !== false ? 'Enabled' : 'Disabled'}\nSwagger Setup: ${includeSwagger ? 'Enabled' : 'Disabled'}`,
           'Dry Run Mode (No files written)',
         );
         outro(chalk.yellow('Dry run execution complete cleanly.'));
@@ -151,7 +200,7 @@ cli
         targetDir,
         projectName,
         templateRepo,
-        { git: options.git, docker: includeDocker },
+        { git: options.git, swagger: includeSwagger, commitInitial },
       );
 
       spinner.stop(

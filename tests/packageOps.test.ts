@@ -40,4 +40,22 @@ describe('packageOps', () => {
     expect(updatedPkg.version).toBe('1.0.0');
     expect(updatedPkg.description).toBe('REST API for Cool API App');
   });
+
+  it('updatePackageJson should add swagger dependencies when requested', async () => {
+    const pkgPath = path.join(tempDir, 'package.json');
+    const initialPkg = {
+      name: 'template-app',
+      version: '0.0.1',
+      dependencies: { express: '^4.18.0' },
+      devDependencies: { typescript: '^5.0.0' },
+    };
+    fs.writeFileSync(pkgPath, JSON.stringify(initialPkg, null, 2));
+
+    await updatePackageJson(pkgPath, 'Cool API App', true);
+
+    const updatedPkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
+    expect(updatedPkg.dependencies['swagger-ui-express']).toBeDefined();
+    expect(updatedPkg.devDependencies['swagger-autogen']).toBeDefined();
+    expect(updatedPkg.scripts['swagger']).toBeDefined();
+  });
 });

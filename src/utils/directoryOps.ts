@@ -3,10 +3,12 @@ import path from 'path';
 
 /**
  * Checks if a directory is empty.
+ * Ignores hidden files like .git or .DS_Store to be less strict.
  */
 export const isDirectoryEmpty = (dirPath: string): boolean => {
   const files = fs.readdirSync(dirPath);
-  return files.length === 0;
+  // It's empty if there are no files or only hidden files (like .git, .DS_Store)
+  return files.length === 0 || files.every((f) => f.startsWith('.'));
 };
 
 /**
@@ -14,6 +16,18 @@ export const isDirectoryEmpty = (dirPath: string): boolean => {
  */
 export const isDirectoryPresent = (dirPath: string): boolean => {
   return fs.existsSync(dirPath);
+};
+
+/**
+ * Empties a directory completely, removing all contents but keeping the directory itself.
+ */
+export const emptyDirectory = (dirPath: string): void => {
+  const files = fs.readdirSync(dirPath);
+  for (const file of files) {
+    // Keep .git directory untouched if it exists, to avoid deleting git history
+    if (file === '.git') continue;
+    fs.rmSync(path.resolve(dirPath, file), { recursive: true, force: true });
+  }
 };
 
 /**
@@ -37,23 +51,56 @@ export const createDotEnvFile = (dirPath: string, projectName: string) => {
 };
 
 /**
- * Creates Dockerfile, docker-compose.yml, and .dockerignore files.
+ * Creates Swagger configuration file.
  */
-export const createDockerFiles = (dirPath: string, projectName: string) => {
-  const sanitizedName = (projectName || 'mexn-app')
-    .toLowerCase()
-    .replace(/\s+/g, '-');
+export const createSwaggerFiles = (dirPath: string, templateType: string) => {
+  const isTypescript = templateType === 'esm-ts';
+  const isCJS = templateType === 'cjs';
 
-  const dockerfileContent = `FROM node:22-alpine\n\nWORKDIR /app\n\nCOPY package*.json ./\n\nRUN npm install\n\nCOPY . .\n\nEXPOSE 5000\n\nCMD ["npm", "run", "dev"]\n`;
+  const swaggerExt = isTypescript ? 'ts' : 'js';
 
-  const dockerComposeContent = `version: '3.8'\n\nservices:\n  app:\n    build: .\n    ports:\n      - '5000:5000'\n    environment:\n      - PORT=5000\n      - MONGO_URI=mongodb://mongo:27017/${sanitizedName}\n      - NODE_ENV=development\n    depends_on:\n      - mongo\n    volumes:\n      - .:/app\n      - /app/node_modules\n\n  mongo:\n    image: mongo:latest\n    ports:\n      - '27017:27017'\n    volumes:\n      - mongo-data:/data/db\n\nvolumes:\n  mongo-data:\n`;
+  let swaggerContent = '';
 
-  const dockerIgnoreContent = `node_modules\nnpm-debug.log\ndist\n.git\n.env\n`;
+  if (isCJS) {
+    swaggerContent = `const swaggerAutogen = require('swagger-autogen')();\n\nconst doc = {\n  info: {\n    title: 'MEXN API',\n    description: 'API Documentation for MEXN Application'\n  },\n  host: 'localhost:5000'\n};\n\nconst outputFile = './swagger-output.json';\nconst routes = ['./index.js'];\n\nswaggerAutogen(outputFile, routes, doc);\n`;
+  } else {
+    swaggerContent = `import swaggerAutogen from 'swagger-autogen';\n\nconst doc = {\n  info: {\n    title: 'MEXN API',\n    description: 'API Documentation for MEXN Application'\n  },\n  host: 'localhost:5000'\n};\n\nconst outputFile = './swagger-output.json';\nconst routes = ['./index.${swaggerExt}'];\n\nswaggerAutogen()(outputFile, routes, doc);\n`;
+  }
 
-  fs.writeFileSync(path.join(dirPath, 'Dockerfile'), dockerfileContent);
-  fs.writeFileSync(
-    path.join(dirPath, 'docker-compose.yml'),
-    dockerComposeContent,
-  );
-  fs.writeFileSync(path.join(dirPath, '.dockerignore'), dockerIgnoreContent);
+  fs.writeFileSync(path.join(dirPath, `swagger.${swaggerExt}`), swaggerContent);
+};
+
+/**
+ * Adds a "Scaffolded with create-mexn-app" badge to the generated README.md.
+ */
+export const updateReadme = (dirPath: string, projectName: string) => {
+  const readmePath = path.join(dirPath, 'README.md');
+  const badgeMarkdown = `\n[![Scaffolded with create-mexn-app](https://img.shields.io/badge/Scaffolded_with-create--mexn--app-blue)](https://github.com/donymvarkey/create-mexn-app)\n`;
+  const defaultReadme = `# ${projectName}\n${badgeMarkdown}\nThis project was bootstrapped with [create-mexn-app](https://github.com/donymvarkey/create-mexn-app).\n`;
+
+  if (fs.existsSync(readmePath)) {
+    const existingContent = fs.readFileSync(readmePath, 'utf-8');
+    // Prepend the badge if it's not already there
+    if (!existingContent.includes('Scaffolded with create-mexn-app')) {
+      // Find the first heading to insert the badge right after it
+      const lines = existingContent.split('\n');
+      let inserted = false;
+
+      for (let i = 0; i < lines.length; i++) {
+        if (lines[i].startsWith('# ')) {
+          lines.splice(i + 1, 0, badgeMarkdown);
+          inserted = true;
+          break;
+        }
+      }
+
+      if (!inserted) {
+        lines.unshift(badgeMarkdown);
+      }
+
+      fs.writeFileSync(readmePath, lines.join('\n'));
+    }
+  } else {
+    fs.writeFileSync(readmePath, defaultReadme);
+  }
 };
